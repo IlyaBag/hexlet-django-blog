@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import View
-from django.http.response import HttpResponse
-# from django.shortcuts import redirect
-# from django.urls import reverse
+# from django.http.response import HttpResponse
+from django.shortcuts import redirect
+from django.urls import reverse
 from hexlet_django_blog.article.models import Article
+from hexlet_django_blog.article.forms import ArticleForm
 
 # Create your views here.
 # def index(request):
@@ -32,3 +33,16 @@ class ArticleView(View):
         return render(request, 'article-show.html', context={
             'article': article,
         })
+
+class ArticleFormCreateView(View):
+
+    def get(self, request, *args, **kwargs):
+        form = ArticleForm()
+        return render(request, 'article-create.html', {'form': form})
+    
+    def post(self, request, *args, **kwargs):
+        form = ArticleForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('articles_list')
+        return render(request, 'article-create.html', {'form': form})
