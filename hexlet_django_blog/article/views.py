@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from hexlet_django_blog.article.models import Article
 from hexlet_django_blog.article.forms import ArticleForm
+from django.contrib import messages
 
 # Create your views here.
 # def index(request):
@@ -44,5 +45,6 @@ class ArticleFormCreateView(View):
         form = ArticleForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Article was added successfully")
             return redirect('articles_list')
         return render(request, 'article-create.html', {'form': form})

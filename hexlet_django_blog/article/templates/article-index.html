@@ -1,5 +1,15 @@
 {% extends "base.html" %}
 
+{% block flash_messages %}
+  {% if messages %}
+  <ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+{% endblock %}
+
 {% block content %}
   <h1>Список статей</h1>
   {% for article in articles %}
