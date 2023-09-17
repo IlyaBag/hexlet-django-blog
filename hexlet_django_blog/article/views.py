@@ -48,3 +48,26 @@ class ArticleFormCreateView(View):
             messages.success(request, "Article was added successfully")
             return redirect('articles_list')
         return render(request, 'article-create.html', {'form': form})
+
+
+class ArticleFormEditView(View):
+
+    def get(self, request, *args, **kwargs):
+        article_id = kwargs.get('id')
+        article = Article.objects.get(id=article_id)
+        form = ArticleForm(instance=article)
+        return render(request, 'article-update.html',
+                      {'form': form, 'article_id': article_id})
+
+    def post(self, request, *args, **kwargs):
+        article_id = kwargs.get('id')
+        article = Article.objects.get(id=article_id)
+        form = ArticleForm(request.POST, instance=article)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Article changed')
+            return redirect('articles_list')
+
+        messages.warning(request, 'Check the input')
+        return render(request, 'article-update.html',
+                      {'form': form, 'article_id': article_id})
