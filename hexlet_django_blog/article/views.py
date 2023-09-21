@@ -71,3 +71,13 @@ class ArticleFormEditView(View):
         messages.warning(request, 'Check the input')
         return render(request, 'article-update.html',
                       {'form': form, 'article_id': article_id})
+
+
+class ArticleFormDeleteView(View):
+
+    def post(self, request, *args, **kwargs):
+        article = Article.objects.get(id=kwargs.get('id'))
+        if article:
+            article.delete()
+            messages.success(request, 'Article was deleted')
+        return redirect('articles_list')
