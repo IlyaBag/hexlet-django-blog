@@ -30,7 +30,7 @@ class IndexView(View):
 class ArticleView(View):
 
     def get(self, request, *args, **kwargs):
-        article = get_object_or_404(Article, id=kwargs['article_id'])
+        article = get_object_or_404(Article, id=kwargs['id'])
         return render(request, 'article-show.html', context={
             'article': article,
         })
